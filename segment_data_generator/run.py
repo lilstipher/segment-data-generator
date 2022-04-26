@@ -14,6 +14,8 @@ __copyright__ = "lilstipher"
 __license__ = "MIT"
 
 _logger = logging.getLogger(__name__)
+
+
 def parse_args(args):
     """Parse command line parameters
     Args:
@@ -66,13 +68,11 @@ def setup_logging(loglevel):
     )
 
 
-
-
-
 def gen_fake_data():
     ...
 
-def main(args: list[str] ):
+
+def main(args: list[str]):
     """Wrapper
     Args:
       args (List[str]): command line parameters as list of strings
@@ -82,22 +82,21 @@ def main(args: list[str] ):
     setup_logging(args.loglevel)
     _logger.info(f"Log level set to {args.loglevel}")
 
-    try :
+    try:
         segment.write_key = args.write_key
         _logger.info("Write key set up")
     except Exception as err:
-        _logger.error("Cannot setting the write key ! Exit...")
+        _logger.error(f"Cannot setting the write key. Reason \n {err} \n ! Exit...")
         exit(1)
 
-
-    while True :
+    while True:
         uuid, traits = utils.generate_identify_data()
-        event_id,event_name,event = utils.generate_track_data()
-        rand = randint(0,1)
-        if rand == 0 : 
+        event_id, event_name, event = utils.generate_track_data()
+        rand = randint(0, 1)
+        if rand == 0:
             segment.identify(uuid, traits)
-        else :
-            segment.track(event_id,event_name,event)
+        else:
+            segment.track(event_id, event_name, event)
         sleep(10)
 
 
